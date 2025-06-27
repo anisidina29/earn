@@ -1,4 +1,4 @@
 selenium
-undetected-chromedriver
+chromedriver_autoinstaller
 fake-useragent
 pyvirtualdisplay
