@@ -8,6 +8,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pyvirtualdisplay import Display
+# Initialize headless display
+display = Display(visible=0, size=(1024, 768))
+display.start()
 
 def run_selenium_instance(link):
     print(f" Starting processing for link: {link}")
