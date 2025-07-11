@@ -24,8 +24,13 @@ jobs:
             pip install undetected_chromedriver selenium chromedriver_autoinstaller pyautogui fake-useragent requests setuptools distlib
       - run:
           name: Run main
-          command: |   
-            python main.py
+          command: |
+            $Process = Start-Process python -ArgumentList "main.py" -PassThru
+            $Process.WaitForExit(360000)  # 6 minutes in milliseconds
+            if (!$Process.HasExited) {
+                Write-Host "Timeout reached, stopping process..."
+                $Process.Kill()
+            }
       - run:
           name: Run main combined
           command: |   
