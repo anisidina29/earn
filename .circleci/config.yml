@@ -34,8 +34,14 @@ jobs:
             }
       - run:
           name: Run main combined
-          command: |   
-            python main_combined.py         
+          shell: powershell
+          command: |
+            $Process = Start-Process python -ArgumentList "main_combined.py" -PassThru
+            $Process.WaitForExit(600000)  # 10 minutes in milliseconds
+            if (!$Process.HasExited) {
+                Write-Host "Timeout reached, stopping process..."
+                $Process.Kill()
+            }      
 
 workflows:
   version: 2
