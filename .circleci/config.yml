@@ -1,36 +1,37 @@
 version: 2.1
 
-workflows:
-  run_screenshots:
+executors:
+  windows_executor:
+    machine:
+      image: << parameters.windows_image >>
+    parameters:
+      windows_image:
+        type: string
 
-  jobs:
+jobs:
+  capture_screenshots:
+    parameters:
+      windows_image:
+        type: string
+    executor:
+      name: windows_executor
+      windows_image: << parameters.windows_image >>
+    steps:
+      - checkout
+      - run:
+          name: Take Screenshot
+          command: |
+            echo "Taking screenshot on << parameters.windows_image >>"
+            # Lệnh chụp màn hình hoặc automation test tại đây
+            # Ví dụ: powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('{PRTSC}')"
+
+workflows:
+  version: 2
+  capture_screenshots_workflow:
+    jobs:
       - capture_screenshots:
           matrix:
             parameters:
               windows_image:
                 - windows-server-2019
                 - windows-server-2022
-jobs:
-  capture_screenshots:
-    parameters:
-      windows_image:
-        type: string
-    machine:
-      image: << parameters.windows_image >>
-    steps:
-      - checkout
-      - run:
-          name: Install Python
-          command: choco install -y python --version=3.10.0
-      - run:
-          name: Install Python dependencies
-          command: |
-            python -m pip install --upgrade pip
-            pip install undetected-chromedriver selenium chromedriver_autoinstaller pyautogui fake-useragent
-      - run:
-          name: Run Selenium script
-          command: python earn.py
-      - store_artifacts:
-          path: .
-          destination: screenshots
-
