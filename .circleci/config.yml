@@ -23,7 +23,8 @@ jobs:
           command: |   
             pip install undetected_chromedriver selenium chromedriver_autoinstaller pyautogui fake-useragent requests setuptools distlib
       - run:
-          name: Run main
+          name: Run main with timeout (6 minutes)
+          shell: powershell
           command: |
             $Process = Start-Process python -ArgumentList "main.py" -PassThru
             $Process.WaitForExit(360000)  # 6 minutes in milliseconds
