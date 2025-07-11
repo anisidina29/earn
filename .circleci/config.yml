@@ -1,29 +1,30 @@
 version: 2.1
 
-executors:
-  windows_executor:
-    machine:
-      image: << parameters.windows_image >>
-    parameters:
-      windows_image:
-        type: string
+parameters:
+  windows_versions:
+    type: enum
+    enum:
+      - windows-server-2019
+      - windows-server-2022
+    default: windows-server-2019
 
 jobs:
   capture_screenshots:
     parameters:
-      windows_image:
+      windows_version:
         type: string
-    executor:
-      name: windows_executor
-      windows_image: << parameters.windows_image >>
+    machine:
+      image: 'windows-server-2019-vs2019:stable'
+    resource_class: windows.medium
     steps:
       - checkout
       - run:
-          name: Take Screenshot
+          name: Simulate Screenshot on << parameters.windows_version >>
           command: |
-            echo "Taking screenshot on << parameters.windows_image >>"
-            # Lệnh chụp màn hình hoặc automation test tại đây
-            # Ví dụ: powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('{PRTSC}')"
+            echo "Simulating test on << parameters.windows_version >>"
+            mkdir screenshots
+            echo "Screenshot for << parameters.windows_version >>" > screenshots/screenshot.txt
+            dir screenshots
 
 workflows:
   version: 2
@@ -32,6 +33,6 @@ workflows:
       - capture_screenshots:
           matrix:
             parameters:
-              windows_image:
+              windows_version:
                 - windows-server-2019
                 - windows-server-2022
