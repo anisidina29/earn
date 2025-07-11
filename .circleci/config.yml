@@ -23,9 +23,9 @@ jobs:
           command: |   
             pip install undetected_chromedriver selenium chromedriver_autoinstaller pyautogui fake-useragent requests setuptools distlib
       - run:
-          name: Run earn
+          name: Run main
           command: |   
-            python earn.py
+            python main.py
       - run:
           name: Run main combined
           command: |   
