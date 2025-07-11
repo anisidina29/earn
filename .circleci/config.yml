@@ -1,17 +1,9 @@
 version: 2.1
 
-parameters:
-  windows_versions:
-    type: enum
-    enum:
-      - windows-server-2019
-      - windows-server-2022
-    default: windows-server-2019
-
 jobs:
   capture_screenshots:
     parameters:
-      windows_version:
+      config_name:
         type: string
     machine:
       image: 'windows-server-2019-vs2019:stable'
@@ -19,20 +11,21 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Simulate Screenshot on << parameters.windows_version >>
+          name: Run test with config << parameters.config_name >>
           command: |
-            echo "Simulating test on << parameters.windows_version >>"
-            mkdir screenshots
-            echo "Screenshot for << parameters.windows_version >>" > screenshots/screenshot.txt
-            dir screenshots
+            echo "Running on config: << parameters.config_name >>"
+            mkdir results
+            echo "Result for << parameters.config_name >>" > results/output.txt
+            dir results
 
 workflows:
   version: 2
-  capture_screenshots_workflow:
+  parallel_screenshots:
     jobs:
       - capture_screenshots:
           matrix:
             parameters:
-              windows_version:
-                - windows-server-2019
-                - windows-server-2022
+              config_name:
+                - test_case_a
+                - test_case_b
+                - test_case_c
