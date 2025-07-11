@@ -51,6 +51,6 @@ workflows:
           matrix:
             parameters:
               config_name:
-                - test_case_a
-                - test_case_b
-                - test_case_c
+                - test_case_1
+                - test_case_2
+
