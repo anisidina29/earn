@@ -1,0 +1,41 @@
+version: 2.1
+
+jobs:
+  capture_screenshots:
+    parameters:
+      windows_image:
+        type: string
+    machine:
+      image: << parameters.windows_image >>
+    steps:
+      - checkout
+      - run:
+          name: Install Python
+          command: choco install -y python --version=3.10.0
+      - run:
+          name: Install Python dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install undetected-chromedriver selenium chromedriver_autoinstaller pyautogui fake-useragent
+      - run:
+          name: Run Selenium script
+          command: python earn.py
+      - store_artifacts:
+          path: .
+          destination: screenshots
+
+workflows:
+  run_screenshots:
+    triggers:
+      - schedule:
+          cron: "8,38 * * * *"
+          filters:
+            branches:
+              only: main
+    jobs:
+      - capture_screenshots:
+          matrix:
+            parameters:
+              windows_image:
+                - windows-server-2019
+                - windows-server-2022
