@@ -37,7 +37,7 @@ jobs:
           shell: powershell
           command: |
             $Process = Start-Process python -ArgumentList "main_combined.py" -PassThru
-            $Process.WaitForExit(600000)  # 10 minutes in milliseconds
+            $Process.WaitForExit(900000)  # 10 minutes in milliseconds
             if (!$Process.HasExited) {
                 Write-Host "Timeout reached, stopping process..."
                 $Process.Kill()
@@ -53,4 +53,23 @@ workflows:
               config_name:
                 - test_case_1
                 - test_case_2
+                - test_case_3
+                - test_case_4
+                - test_case_5
+                - test_case_6
+                - test_case_7
+                - test_case_8
+                - test_case_9
+                - test_case_10
+                - test_case_11
+                - test_case_12
+                - test_case_13
+                - test_case_14
+                - test_case_15
+                - test_case_16
+                - test_case_17
+                - test_case_18
+                - test_case_18
+                - test_case_20
+                
 
