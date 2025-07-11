@@ -18,10 +18,6 @@ import multiprocessing
 from videzz_video import run_main_selenium
 from earn import run_earn_parallel
 from streamhg import run_streamhg_parallel
-from pyvirtualdisplay import Display
-# Initialize headless display
-display = Display(visible=0, size=(1024, 768))
-display.start()
 
 if __name__ == "__main__":
     processes = [

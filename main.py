@@ -3,11 +3,6 @@ import multiprocessing
 import random
 import time
 from streamhg_worker import run_browser_instance
-from pyvirtualdisplay import Display
-# Initialize headless display
-display = Display(visible=0, size=(1024, 768))
-display.start()
-
 
 # Danh sách các link
 link_list = [

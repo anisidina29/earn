@@ -8,20 +8,15 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pyvirtualdisplay import Display
-# Initialize headless display
-display = Display(visible=0, size=(1024, 768))
-display.start()
 
 def run_selenium_instance(link):
     print(f" Starting processing for link: {link}")
     options = Options()
+    options.add_argument("--headless=new")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
@@ -87,17 +82,37 @@ def run_selenium_instance(link):
 
 def run_earn_parallel():
     try:
-        url = "https://raw.githubusercontent.com/talblubClouby96/videzz_video/refs/heads/main/link_temp.txt"
-        response = requests.get(url)
-        response.raise_for_status()
-        link_list = response.text.strip().splitlines()
-        print(f" Successfully loaded {len(link_list)} links.")
+        # URL cũ
+        old_url = "https://raw.githubusercontent.com/talblubClouby96/videzz_video/refs/heads/main/link_temp.txt"
+        response_old = requests.get(old_url)
+        response_old.raise_for_status()
+        old_links = response_old.text.strip().splitlines()
+        print(f"Loaded {len(old_links)} links from old URL.")
+
+        # URL mới
+        new_url = "https://raw.githubusercontent.com/talblubClouby96/videzz_video/refs/heads/main/earnvids.txt"
+        response_new = requests.get(new_url)
+        response_new.raise_for_status()
+        new_links = response_new.text.strip().splitlines()
+        print(f"Loaded {len(new_links)} links from new URL.")
+
+        # Lấy 1 link từ old, 2 links từ new
+        selected_old = random.sample(old_links, 2)
+        selected_new = random.sample(new_links, 2)
+        selected_links = selected_old + selected_new
+
+        print(f"Selected {len(selected_links)} links for processing:")
+        for link in selected_links:
+            print(f" - {link}")
+
+        # Tiếp tục xử lý selected_links với multiprocessing hoặc các bước khác
+
     except Exception as e:
         print(f"Failed to load link list: {e}")
         return
 
-    num_processes = 4
-    selected_links = random.sample(link_list, num_processes)
+    #num_processes = 4
+    #selected_links = random.sample(link_list, num_processes)
 
     processes = []
     for link in selected_links:
