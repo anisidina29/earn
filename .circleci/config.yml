@@ -11,10 +11,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Python (via Chocolatey)
+          name: Install Python 3.11 (via Chocolatey)
           shell: powershell
           command: |
-            choco install -y python
+            choco install -y python --version=3.11.6
             refreshenv
             python --version
 
