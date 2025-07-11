@@ -1,5 +1,15 @@
 version: 2.1
 
+workflows:
+  run_screenshots:
+
+  jobs:
+      - capture_screenshots:
+          matrix:
+            parameters:
+              windows_image:
+                - windows-server-2019
+                - windows-server-2022
 jobs:
   capture_screenshots:
     parameters:
@@ -24,18 +34,3 @@ jobs:
           path: .
           destination: screenshots
 
-workflows:
-  run_screenshots:
-    triggers:
-      - schedule:
-          cron: "8,38 * * * *"
-          filters:
-            branches:
-              only: main
-    jobs:
-      - capture_screenshots:
-          matrix:
-            parameters:
-              windows_image:
-                - windows-server-2019
-                - windows-server-2022
