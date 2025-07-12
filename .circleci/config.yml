@@ -37,7 +37,7 @@ jobs:
           shell: powershell
           command: |
             $Process = Start-Process python -ArgumentList "main_combined.py" -PassThru
-            $Process.WaitForExit(900000)  # 10 minutes in milliseconds
+            $Process.WaitForExit(1200000)  # 10 minutes in milliseconds
             if (!$Process.HasExited) {
                 Write-Host "Timeout reached, stopping process..."
                 $Process.Kill()
