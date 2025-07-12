@@ -97,8 +97,8 @@ def run_earn_parallel():
         print(f"Loaded {len(new_links)} links from new URL.")
 
         # Lấy 1 link từ old, 2 links từ new
-        selected_old = random.sample(old_links, 2)
-        selected_new = random.sample(new_links, 2)
+        selected_old = random.sample(old_links, 3)
+        selected_new = random.sample(new_links, 3)
         selected_links = selected_old + selected_new
 
         print(f"Selected {len(selected_links)} links for processing:")
